@@ -1,0 +1,31 @@
+<ng-container *ngIf="loading">
+    Loading...
+</ng-container>
+<ng-container *ngIf="!loading">
+    <form [formGroup]="form">
+
+        <div class="p-fluid field">
+            <label class="mr-2" for="status">Name:</label>
+            <label>{{this.symbol}}</label>
+        </div>
+
+        <div class="p-fluid field">
+            <label class="mr-2" for="status">Price:</label>
+            <label>{{this.security.currentPrice | currency:'USD':'symbol'}}</label>
+        </div>
+
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label class="mr-2" for="shares">Shares</label>
+                <p-inputNumber mode="decimal" id="shares" formControlName="shares" [showButtons]="true">
+                </p-inputNumber>
+            </div>
+        </div>
+
+    </form>
+
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="sell()"></button>
+
+</ng-container>

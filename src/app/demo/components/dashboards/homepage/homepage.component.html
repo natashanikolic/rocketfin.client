@@ -1,0 +1,151 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card p-0">
+			<div class="timeline-header p-3 flex justify-content-between align-items-center">
+				<div class="header-icons">
+					<i class="pi pi-refresh ml-2"></i>
+					<i class="pi pi-filter ml-2"></i>
+				</div>
+			</div>
+			<ng-container *ngIf="transactions.length !== 0">
+				<div class="timeline-content pb-3">
+					<p-timeline [value]="transactions" styleClass="custom-timeline py-0 px-3">
+						<ng-template pTemplate="marker" let-transaction>
+							<span
+								class="custom-marker border-circle p-1 w-2rem h-2rem flex justify-content-center align-items-center"
+								[style.backgroundColor]="transaction.operation === 'Buy' ? '#0BD18A' : '#FC6161'">
+								<i [ngClass]="transaction.operation === 'Buy' ? 'pi pi-plus' : 'pi pi-minus'"></i>
+							</span>
+						</ng-template>
+						<ng-template pTemplate="content" let-transaction>
+							<div class="flex align-items-center justify-content-between">
+								<p class="m-0">{{ transaction.transaction }}</p>
+								<h6 class="m-0" [style.color]="transaction.operation === 'Buy' ? '#0BD18A' : '#FC6161'">
+									{{ transaction.amount | currency:'USD':'symbol' }}
+								</h6>
+							</div>
+							<span class="text-sm text-color-secondary">{{ transaction.date | date:'short' }}</span>
+						</ng-template>
+					</p-timeline>
+				</div>
+				<div
+					class="timeline-footer border-top-1 surface-border	p-3 flex align-items-center justify-content-center">
+					<a href="#" class="text-primary hover:text-primary-400 transition-duration-200">View all
+						transactions <i class="pi pi-arrow-down"></i></a>
+				</div>
+			</ng-container>
+			<ng-container *ngIf="transactions.length === 0">
+				<div
+					class="timeline-footer border-top-1 surface-border	p-3 flex align-items-center justify-content-center">
+					<span class="text-primary hover:text-primary-400 transition-duration-200">No recent transactions...
+						get started in transactions page! <i class="pi pi-arrow-down"></i></span>
+				</div>
+			</ng-container>
+
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="card">
+			<h5>Instruments
+			</h5>
+			<p-table #dtt [value]="securities" dataKey="id" [loading]="loading" [rowHover]="true"
+				styleClass="p-datatable-gridlines" [rows]="assetParams.pageSize" [totalRecords]="totalRecords"
+				[paginator]="true" responsiveLayout="scroll">
+				<ng-template pTemplate="caption">
+					<div class="flex ">
+						<span class="p-input-icon-left mb-2 mr-2">
+							<i class="pi pi-search"></i>
+							<input #searchInput pInputText type="search"
+								placeholder="Ticker Symbol (SMCI,AMD,NVDA,TSLA...)" style="width: 500px" />
+						</span>
+						<button class="mb-2" pButton type="button" label="Search"
+							(click)="this.loadInstruments(searchInput.value)"></button>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Symbol
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Name
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Bid
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Ask
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Current Price
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Change Value
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Change Percentage
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Buy
+							</div>
+						</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-security>
+					<tr>
+						<td>
+							{{security.symbol}}
+						</td>
+						<td>
+							{{security.name}}
+						</td>
+						<td>
+							{{security.bid}}
+						</td>
+						<td>
+							{{security.ask}}
+						</td>
+						<td>
+							{{security.currentPrice | currency:'USD':'symbol'}}
+						</td>
+						<td>
+							{{security.changeValue}}
+						</td>
+						<td>
+							{{security.changePercentage}}
+						</td>
+						<td class="text-center">
+							<button pButton pRipple icon="pi pi-cart-plus" class="p-button-raised p-button-secondary"
+								(click)="buy(security.symbol)"></button>
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">No instruments found.</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="loadingbody">
+					<tr>
+						<td colspan="8">Loading instruments. Please wait.</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>

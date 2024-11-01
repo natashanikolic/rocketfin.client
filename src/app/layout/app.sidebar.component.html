@@ -1,0 +1,18 @@
+<div class="layout-sidebar" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+    <div class="sidebar-header">
+        <a [routerLink]="['/']" class="app-logo">
+            <div class="app-logo-small h-2rem">
+                <h3>RocketFin Trading</h3>
+            </div>
+            <div class="app-logo-normal ">
+                <h2>RocketFin Trading</h2>
+            </div>
+        </a>
+        <button class="layout-sidebar-anchor p-link z-2 " type="button" (click)="anchor()"></button>
+    </div>
+
+
+    <div #menuContainer class="layout-menu-container">
+        <app-menu></app-menu>
+    </div>
+</div>
